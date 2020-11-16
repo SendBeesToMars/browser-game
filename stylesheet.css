@@ -1,0 +1,8 @@
+.flex-container-vertical {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-container-horizontal {
+    display: flex;
+}
