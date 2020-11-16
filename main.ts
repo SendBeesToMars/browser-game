@@ -36,6 +36,10 @@ class Money {
 class Point {
     num: number = 0;
     growth_freq: number = 1000;
+    order_num = 0;  // number of orders*
+    load_flag: boolean = false;
+    timer:boolean = true;
+    initial: number = 0;
 }
 
 let money: Money = new Money()
@@ -57,16 +61,26 @@ function timeout() {
 }
 timeout();
 
-function progressbar_load(progressbar, progress) {
+function progressbar_load(progressbar, progress, order_num) { // idea behind this is that it takes time to move the items to invenotry after buying
     setTimeout(() => {
         progressbar.value = progress.toString();
         if (progress < 100) { // 100%
-            progressbar_load(progressbar, progress + 1);
+            progressbar_load(progressbar, progress + 1, order_num);
         }
         else {
             progressbar.value = "0";
-            point.num ++;
+            point.num += order_num;
             update();
+            point.timer = true;
+            
+            console.log(point.initial, point.order_num)
+            if (point.initial != point.order_num) {
+                point.order_num -= point.initial;
+                point.initial = order_num;
+                progressbar_load(point_progress_element, 0, point.order_num);
+            }
+            point.order_num = 0;
+            point.initial = 0;
         }
     }, 25); // time to wait
 }
@@ -75,7 +89,15 @@ function buy_point() {
     if (money.num > 0) {
         money.num --;
         update();
-        progressbar_load(point_progress_element, 0);
+        point.order_num++;
+
+        setTimeout(() => {
+            if (point.timer) {
+                point.timer = false;
+                point.initial = point.order_num;
+                progressbar_load(point_progress_element, 0, point.order_num);
+            }
+        }, 1000);
     }
 }
 
