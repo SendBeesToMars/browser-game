@@ -4,22 +4,36 @@
         <meta charset="UTF-8">
         <title>Flowers :)</title>
         <link rel="stylesheet" href="stylesheet.css" type="text/css">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
     </head>
     <body>
-    <div class="flex-container-vertical">
-        <div>
-            <p id="money">cash money: $10</p>
+        <p id="money">cash money: $10</p>
+
+        <div class="flex_container_horizontal">
+            <div class="flex_container_vertical">
+                <div class="flex_container_horizontal">
+                    <button id="buy_period" onclick="buy_period()">Buy .</button>
+                    <p id="period">count: 0</p>
+                    <progress class="progressbar" id="period_progress" value="0" max="100"> 0% </progress>
+                </div>
+                <div class="flex_container_horizontal">
+                    <button id="buy_pipe" onclick="button_click()">Buy |</button>
+                    <p id="count2">count: 0</p>
+                </div>
+            </div>
+
+            <div class="flex_container_vertical">
+                <div class="flex_container_horizontal">
+                    <button id="forge_eyes" onclick="forge_eyes()">Forge :</button>
+                    <p id="eyes">count: 0</p>
+                    <progress class="progressbar" id="eyes_progress" value="0" max="100"> 0% </progress>
+                </div>
+                <div class="flex_container_horizontal">
+                    <button id="buy_button" onclick="button_click()">Forge )</button>
+                    <p id="count2">count: 0</p>
+                </div>
+            </div>
         </div>
-        <div class="flex-container-horizontal">
-            <button id="buy_button" onclick="buy_point()">Buy .</button>
-            <p id="point">count: 0</p>
-            <progress id="point_progress" value="0" max="100"> 0% </progress>
-        </div>
-        <div class="flex-container-horizontal">
-            <button id="buy_button" onclick="button_click()">Buy )</button>
-            <p id="count2">count: 0</p>
-        </div>
-    </div>
     <script src="main.js" type="text/javascript"></script>
     </body>
 </html>

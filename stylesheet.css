@@ -1,8 +1,23 @@
-.flex-container-vertical {
+body {
+    font-family: Monaco, monospace;
+}
+
+.flex_container_vertical {
+    margin: 1em;
     display: flex;
     flex-direction: column;
 }
 
-.flex-container-horizontal {
+.flex_container_horizontal {
+    margin: 1em;
     display: flex;
+    flex-direction: row;
+}
+
+#money {
+    margin: 1em;
+}
+
+.progressbar {
+    margin: 1em;
 }

@@ -6,8 +6,10 @@
 console.log("suh");
 
 const money_element: HTMLElement = document.getElementById("money");
-const point_element: HTMLElement = document.getElementById("point");
-const point_progress_element: HTMLInputElement = document.getElementById("point_progress") as HTMLInputElement;
+const period_element: HTMLElement = document.getElementById("period");
+const eyes_element: HTMLElement = document.getElementById("eyes");
+const period_progress_element: HTMLInputElement = document.getElementById("period_progress") as HTMLInputElement;
+const eyes_progress_element: HTMLInputElement = document.getElementById("eyes_progress") as HTMLInputElement;
 
 interface Smiley{
     price: number; // base price
@@ -33,7 +35,7 @@ class Money {
     }
 }
 
-class Point {
+class Part {
     num: number = 0;
     growth_freq: number = 1000;
     order_num = 0;  // number of orders*
@@ -43,11 +45,13 @@ class Point {
 }
 
 let money: Money = new Money()
-let point: Point = new Point()
+let period: Part = new Part()
+let eyes: Part = new Part()
 
-function update() {
+function update() { // updates the html
     money_element.textContent = "cash money: $" + money.num.toString();
-    point_element.textContent = "count: " + point.num.toString();
+    period_element.textContent = "count: " + period.num.toString();
+    eyes_element.textContent = "count: " + eyes.num.toString();
 }
 
 // runs this function evey x miliseconds
@@ -61,47 +65,67 @@ function timeout() {
 }
 timeout();
 
-function progressbar_load(progressbar, progress, order_num) { // idea behind this is that it takes time to move the items to invenotry after buying
-    setTimeout(() => {
+// idea behind this is that it takes time to move the items to invenotry after buying
+function progressbar_load_wait(item, progressbar, progress, order_num) { 
+    setTimeout(() => { // self calling timeout to increment the loading bar progress
         progressbar.value = progress.toString();
         if (progress < 100) { // 100%
-            progressbar_load(progressbar, progress + 1, order_num);
+            progressbar_load_wait(item, progressbar, progress + 1, order_num);
         }
         else {
             progressbar.value = "0";
-            point.num += order_num;
+            item.num += order_num;
             update();
-            point.timer = true;
+            item.timer = true;
             
-            console.log(point.initial, point.order_num)
-            if (point.initial != point.order_num && point.timer) {
-                point.timer = false;
-                point.order_num -= point.initial;
-                point.initial = order_num;
-                progressbar_load(point_progress_element, 0, point.order_num);
+            // if there is a backlog of orders run them in series
+            if (item.initial != item.order_num && item.timer) {
+                item.timer = false;
+                item.order_num -= item.initial;
+                item.initial = order_num;
+                progressbar_load_wait(item, period_progress_element, 0, item.order_num);
             }
-            point.order_num = 0;
-            point.initial = 0;
+            item.order_num = 0;
+            item.initial = 0;
         }
     }, 25); // time to wait
 }
 
-function buy_point() {
+// idea behind this is that it takes time to move the items to invenotry after buying
+function progressbar_load(item, progressbar, progress) { 
+    setTimeout(() => { // self calling timeout to increment the loading bar progress
+        progressbar.value = progress.toString();
+        if (progress < 100) { // 100%
+            progressbar_load(item, progressbar, progress + 1);
+        }
+        else {
+            progressbar.value = "0";
+            item.num ++;
+            update();
+        }
+    }, 50); // time to wait
+}
+
+function buy_period() {
     if (money.num > 0) {
         money.num --;
         update();
-        point.order_num++;
+        period.order_num++;
 
         setTimeout(() => {
-            if (point.timer) {
-                point.timer = false;
-                point.initial = point.order_num;
-                progressbar_load(point_progress_element, 0, point.order_num);
+            if (period.timer) {
+                period.timer = false;
+                period.initial = period.order_num;
+                progressbar_load_wait(period, period_progress_element, 0, period.order_num);
             }
         }, 1000);
     }
 }
 
-function make_eyes() {
-
+function forge_eyes() {
+    if (period.num >= 2) {
+        period.num -=2;
+        update();
+        progressbar_load(eyes, eyes_progress_element, 0);
+    }
 }
