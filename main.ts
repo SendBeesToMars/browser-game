@@ -74,7 +74,8 @@ function progressbar_load(progressbar, progress, order_num) { // idea behind thi
             point.timer = true;
             
             console.log(point.initial, point.order_num)
-            if (point.initial != point.order_num) {
+            if (point.initial != point.order_num && point.timer) {
+                point.timer = false;
                 point.order_num -= point.initial;
                 point.initial = order_num;
                 progressbar_load(point_progress_element, 0, point.order_num);
