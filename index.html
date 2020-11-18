@@ -12,25 +12,35 @@
         <div class="flex_container_horizontal">
             <div class="flex_container_vertical">
                 <div class="flex_container_horizontal">
-                    <button id="buy_period" onclick="buy_period()">Buy .</button>
+                    <button onclick="buy_period()">Buy .</button>
                     <p id="period">count: 0</p>
                     <progress class="progressbar" id="period_progress" value="0" max="100"> 0% </progress>
                 </div>
                 <div class="flex_container_horizontal">
-                    <button id="buy_pipe" onclick="button_click()">Buy |</button>
-                    <p id="count2">count: 0</p>
+                    <button onclick="buy_pipe()">Buy |</button>
+                    <p id="pipe">count: 0</p>
+                    <progress class="progressbar" id="pipe_progress" value="0" max="100"> 0% </progress>
                 </div>
             </div>
 
             <div class="flex_container_vertical">
                 <div class="flex_container_horizontal">
-                    <button id="forge_eyes" onclick="forge_eyes()">Forge :</button>
+                    <button onclick="forge_eyes()">Forge :</button>
                     <p id="eyes">count: 0</p>
                     <progress class="progressbar" id="eyes_progress" value="0" max="100"> 0% </progress>
                 </div>
                 <div class="flex_container_horizontal">
-                    <button id="buy_button" onclick="button_click()">Forge )</button>
-                    <p id="count2">count: 0</p>
+                    <button onclick="forge_cbracket()">Forge )</button>
+                    <p id="cbracket">count: 0</p>
+                    <progress class="progressbar" id="cbracket_progress" value="0" max="100"> 0% </progress>
+                </div>
+            </div>
+
+            <div class="flex_container_vertical">
+                <div class="flex_container_horizontal">
+                    <button onclick="combine_smile()">Assemble :)</button>
+                    <p id="smile">count: 0</p>
+                    <progress class="progressbar" id="smile_progress" value="0" max="100"> 0% </progress>
                 </div>
             </div>
         </div>

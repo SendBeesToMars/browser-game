@@ -8,8 +8,16 @@ console.log("suh");
 const money_element: HTMLElement = document.getElementById("money");
 const period_element: HTMLElement = document.getElementById("period");
 const eyes_element: HTMLElement = document.getElementById("eyes");
+const pipe_element: HTMLElement = document.getElementById("pipe");
+const cbracket_element: HTMLElement = document.getElementById("cbracket");
+const smile_element: HTMLElement = document.getElementById("smile");
+
+
 const period_progress_element: HTMLInputElement = document.getElementById("period_progress") as HTMLInputElement;
 const eyes_progress_element: HTMLInputElement = document.getElementById("eyes_progress") as HTMLInputElement;
+const pipe_progress_element: HTMLInputElement = document.getElementById("pipe_progress") as HTMLInputElement;
+const cbracket_progress_element: HTMLInputElement = document.getElementById("cbracket_progress") as HTMLInputElement;
+const smile_progress_element: HTMLInputElement = document.getElementById("smile_progress") as HTMLInputElement;
 
 interface Smiley{
     price: number; // base price
@@ -46,12 +54,18 @@ class Part {
 
 let money: Money = new Money()
 let period: Part = new Part()
+let pipe: Part = new Part()
 let eyes: Part = new Part()
+let cbracket: Part = new Part()
+let smile: Part = new Part()
 
 function update() { // updates the html
     money_element.textContent = "cash money: $" + money.num.toString();
     period_element.textContent = "count: " + period.num.toString();
     eyes_element.textContent = "count: " + eyes.num.toString();
+    pipe_element.textContent = "count: " + pipe.num.toString();
+    cbracket_element.textContent = "count: " + cbracket.num.toString();
+    smile_element.textContent = "count: " + smile.num.toString();
 }
 
 // runs this function evey x miliseconds
@@ -83,7 +97,7 @@ function progressbar_load_wait(item, progressbar, progress, order_num) {
                 item.timer = false;
                 item.order_num -= item.initial;
                 item.initial = order_num;
-                progressbar_load_wait(item, period_progress_element, 0, item.order_num);
+                progressbar_load_wait(item, progressbar, 0, item.order_num);
             }
             item.order_num = 0;
             item.initial = 0;
@@ -102,6 +116,7 @@ function progressbar_load(item, progressbar, progress) {
             progressbar.value = "0";
             item.num ++;
             update();
+            item.load_flag = false;
         }
     }, 50); // time to wait
 }
@@ -122,10 +137,46 @@ function buy_period() {
     }
 }
 
+function buy_pipe() {
+    if (money.num > 0) {
+        money.num --;
+        update();
+        pipe.order_num++;
+
+        setTimeout(() => {
+            if (pipe.timer) {
+                pipe.timer = false;
+                pipe.initial = pipe.order_num;
+                progressbar_load_wait(pipe, pipe_progress_element, 0, pipe.order_num);
+            }
+        }, 1000);
+    }
+}
+
 function forge_eyes() {
-    if (period.num >= 2) {
+    if (period.num >= 2 && !eyes.load_flag) {
+        eyes.load_flag = true;
         period.num -=2;
         update();
         progressbar_load(eyes, eyes_progress_element, 0);
+    }
+}
+
+function forge_cbracket() {
+    if (pipe.num >= 2 && !cbracket.load_flag) {
+        cbracket.load_flag = true;
+        pipe.num -=2;
+        update();
+        progressbar_load(cbracket, cbracket_progress_element, 0);
+    }
+}
+
+function combine_smile() {
+    if (eyes.num >= 1 &&  cbracket.num >= 1 && !smile.load_flag) {
+        smile.load_flag = true;
+        eyes.num -=1;
+        cbracket.num -=1;
+        update();
+        progressbar_load(smile, smile_progress_element, 0);
     }
 }
